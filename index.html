@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>LZMA URL</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <script src="js/lzma.js"></script>
+        <script>
+            var lzma = new LZMA("js/lzma_worker.js")
+
+            $(document).ready(function() {
+                var base_url = "http://localhost:8000"
+
+                var tArea = document.getElementById("tArea")
+                var compressBtn = document.getElementById("compressBtn")
+                var result_div = document.getElementById("result")
+                var progressbar_div = $("#progressbar")
+
+                var decode = function(encoded) {
+                    utf8_str = atob(encoded)
+                    //console.log(utf8_str)
+                    bytes = new Uint8Array(utf8_str.split('').map(function(char) {return char.charCodeAt(0);}))
+                    //console.log(bytes)
+                    lzma.decompress(bytes, function(text) { tArea.value = text })
+                }
+
+                if(location.search) {
+                    var encoded = location.search.split('?encoded=')[1].replace(/\/$/g,'')
+                    decode(encoded)
+                }
+
+                var update_progrss_bar = function(percent) {
+                    progressbar_div.progressbar('value', percent * 100)
+                }
+
+                var on_compression_complete = function(foo) {
+                    progressbar_div.hide()
+                    b64_encoded = btoa(String.fromCharCode.apply(null, new Uint8Array(foo)))
+                    if(b64_encoded.lenth > 2000){
+                        alert("Too long")
+                    } else {
+                        var url = base_url + "?encoded=" + b64_encoded
+                        result_div.innerHTML = "<p>URL: <a href='" + url + "'>" + url + "</a>"
+                    }
+                }
+
+                compressBtn.onclick = function() {
+                    progressbar_div.show()
+                    lzma.compress(tArea.value, 7, on_compression_complete, update_progrss_bar)
+                }
+                
+                progressbar_div.progressbar({ disabled: true });
+            })
+        </script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <style>
+            html {
+                padding: 0;
+                margin: 0;
+            }
+            body {
+                border: solid 2px #55aaaa;
+                background-color: #FFFFea;
+            }
+            h1 {
+                background-color: #EAFFFF;
+                padding: 5px;
+                border: solid 2px black;
+                margin: 0;
+            }
+            form {
+                text-align: center;
+                width: 100%;
+                background-color: #FFFFAA;
+                padding: 10px;
+                border: solid 2px black;
+            }
+            #result p {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            #tArea {
+                width: 90%;
+                height: 10em;
+            }
+            #progressbar {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Try to paste some text</h1>
+        <form action="#">
+            <textarea id="tArea"></textarea>
+            <input type="button" id="compressBtn" value="Compress" />
+        </form>
+        <div id="progressbar"></div>
+        <div id="result"></div>
+    </body>
+</html>
