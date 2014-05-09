@@ -10,7 +10,7 @@
             var lzma = new LZMA("js/lzma_worker.js")
 
             $(document).ready(function() {
-                var base_url = "http://localhost:8000"
+                var base_url = location.href
 
                 var tArea = document.getElementById("tArea")
                 var compressBtn = document.getElementById("compressBtn")
