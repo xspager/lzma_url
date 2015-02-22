@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>LZMA URL</title>
+        <title>LZMA URL</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script src="js/lzma.js"></script>
@@ -37,8 +37,8 @@
                 var on_compression_complete = function(foo) {
                     progressbar_div.hide()
                     b64_encoded = btoa(String.fromCharCode.apply(null, new Uint8Array(foo)))
-                    if(b64_encoded.lenth > 2000){
-                        alert("Too long")
+                    if(b64_encoded.length > 3000){
+                        alert("Text too long")
                     } else {
                         var url = base_url + "?encoded=" + b64_encoded
                         result_div.innerHTML = "<p>URL: <a href='" + url + "'>" + url + "</a>"
@@ -152,6 +152,6 @@
           
             ga('create', 'UA-50834460-1', 'danielocl.com.br');
             ga('send', 'pageview');
-        </script>        
+        </script>
     </body>
 </html>
