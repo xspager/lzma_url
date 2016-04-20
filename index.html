@@ -40,7 +40,8 @@
                     if(b64_encoded.length > 3000){
                         alert("Text too long")
                     } else {
-                        var url = base_url + "?encoded=" + b64_encoded
+                        var host = base_url.split("/?")[0]
+                        var url = host + "?encoded=" + b64_encoded
                         result_div.innerHTML = "<p>URL: <a href='" + url + "'>" + url + "</a>"
                     }
                 }
