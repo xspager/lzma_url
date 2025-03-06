@@ -69,6 +69,29 @@
                     progressbar_div.show()
                     lzma.compress(tArea.value, 7, on_compression_complete, update_progress_bar)
                 }
+
+                tArea.onclick = () => {
+                    const original_text = "Type or paste in this area and click in compress to generate the URL";
+                    if (tArea.value === original_text) {
+                        tArea.value = "";
+                        tArea.onclick = null;
+                    }
+                }
+
+                document.getElementById("aboutBtn").onclick = () => {
+                    tArea.value = `\
+        Think of this like a pasetebin.com but the text is compressed with LZMA and stored on the URL as Base64 encoded blob
+
+    You can decompress it using:
+    $ echo "https://lzma.danielocl.com.br/?encoded=XQAAgAD//////////wAkGUmYbxYCiQqY5z+owlfkIH3//7S4AAA=" | sed -e 's/https:\/\/lzma.danielocl.com.br\/?encoded=//' | base64 -d | lzma -d -
+
+    You can try to encode a text file yourself using:
+    $ lzma -c -9 my_file.txt | base64 -w 0 | sed -e 's/^/https:\/\/lzma.danielocl.com.br\/?encoded=/' -e 's/$/\\n/'
+
+    Limitation: Due to the longest maximum URL length being around 3.000 characters if the length of the resulting Base64 string is longer than that we will not generate a URL.
+    Caution: You can encode a binary file with this method so make sure you know what you doing when extracting the data from the URL in the command line.
+`;
+                }
                 
                 progressbar_div.progressbar({ disabled: true });
             })
@@ -130,6 +153,9 @@
                 text-align: left;
                 font-size: 80%;
             }
+            .menuItems li {
+                display: inline;
+            }
             .menuItems input {
                 border: none;
                 background-color: inherit;
@@ -164,9 +190,10 @@
                 <div class="menuBox">
                     <ul class="menuItems">
                         <li><input type="button" id="compressBtn" value="Compress"></li>
+                        <li><input type="button" id="aboutBtn" value="About"></li>
                     </ul>
                 </div>
-                <textarea id="tArea">Type or paste in this area and click in compress to generate the URL</textarea>
+                <textarea id="tArea" onclick="">Type or paste in this area and click in compress to generate the URL</textarea>
             </form>
         </div>
         <div id="progressbar" style="display: none"></div>
