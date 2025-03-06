@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en-us">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>LZMA URL</title>
         <meta name=viewport content="width=device-width, initial-scale=1">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -31,7 +31,7 @@
                     decode(encoded)
                 }
 
-                var update_progrss_bar = function(percent) {
+                var update_progress_bar = function(percent) {
                     progressbar_div.progressbar('value', percent * 100)
                 }
 
@@ -49,13 +49,13 @@
 
                 compressBtn.onclick = function() {
                     progressbar_div.show()
-                    lzma.compress(tArea.value, 7, on_compression_complete, update_progrss_bar)
+                    lzma.compress(tArea.value, 7, on_compression_complete, update_progress_bar)
                 }
                 
                 progressbar_div.progressbar({ disabled: true });
             })
         </script>
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.min.css" />
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.min.css">
         <style>
             * {
                 padding: 0;
@@ -89,8 +89,6 @@
                 background-color: #f8fce8;
                 padding: 0;
                 height: 100%;
-            }
-            #topMenu {
             }
             #content, textarea {
                 -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -147,7 +145,7 @@
             <form action="#">
                 <div class="menuBox">
                     <ul class="menuItems">
-                        <li><input type="button" id="compressBtn" value="Compress" /></li>
+                        <li><input type="button" id="compressBtn" value="Compress"></li>
                     </ul>
                 </div>
                 <textarea id="tArea">Type or paste in this area and click in compress to generate the URL</textarea>
